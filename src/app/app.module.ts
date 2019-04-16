@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { IssuesModule } from './features/issues/issues.module';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
+import { metaReducers, reducers } from './reducers';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { environment } from '../environments/environment';
     IssuesModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent]

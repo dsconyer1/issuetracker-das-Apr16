@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { DeveloperListItem } from '../../models';
+import { selectDeveloperListItems, State } from '../../reducers';
 
 @Component({
   selector: 'app-devlopers',
@@ -7,9 +11,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DevlopersComponent implements OnInit {
 
-  constructor() { }
+  devs$: Observable<DeveloperListItem[]>;
+  constructor(private store: Store<State>) { }
 
   ngOnInit() {
+    this.devs$ = this.store.select(selectDeveloperListItems);
   }
 
 }

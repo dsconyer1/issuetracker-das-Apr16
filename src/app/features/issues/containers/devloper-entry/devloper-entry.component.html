@@ -28,8 +28,10 @@
       <div *ngIf="emailAddress.errors['jerk']">We don't hire jerks here.  Try Allstate.</div>
     </div>
   </div>
-  <input type="submit" value="Add Developer" class="btn btn-primary"
-          [disabled]="developerForm.invalid">
+  <input type="submit" value="Add Developer" class="btn btn-primary">
+  <div class="alert alert-danger" *ngIf="hasErrors">
+    Fix your errors, slacker.
+  </div>
 </form>
 
-<pre> {{ developerForm.valid | json }}</pre>
+<!-- <pre> {{ developerForm.valid | json }}</pre> -->

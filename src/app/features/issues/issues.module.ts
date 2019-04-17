@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { DevloperEntryComponent } from './containers/devloper-entry/devloper-entry.component';
@@ -14,7 +15,6 @@ import { IssuesRoutingModule } from './issues-routing.module';
 import { IssuesComponent } from './issues.component';
 import { featureName, reducers } from './reducers';
 
-
 @NgModule({
   declarations: [IssuesComponent, DevlopersComponent, OverviewComponent, DevloperListComponent, DevloperEntryComponent, DevloperListSorterComponent],
   imports: [
@@ -22,7 +22,8 @@ import { featureName, reducers } from './reducers';
     IssuesRoutingModule,
     StoreModule.forFeature(featureName, reducers),
     EffectsModule.forFeature([AppStartUpEffects, DeveloperEffects]),
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ]
 })
 export class IssuesModule { }

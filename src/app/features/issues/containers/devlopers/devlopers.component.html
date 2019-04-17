@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="(developersLoaded$ | async) === true">
   <div class="col">
     <app-devloper-entry></app-devloper-entry>
   </div>
@@ -6,4 +6,9 @@
     <app-devloper-list-sorter></app-devloper-list-sorter>
     <app-devloper-list [developers]="devs$ | async"></app-devloper-list>
   </div>
+</div>
+<div class="alert alert-danger"
+  *ngIf="(developersLoaded$ | async) === false">
+  <h1>The Developers are getting loaded.  Be with you soon.</h1>
+  <img src="https://i0.wp.com/media.boingboing.net/wp-content/uploads/2015/10/tumblr_nlohpxGdBi1tlivlxo1_12801.gif?w=970">
 </div>

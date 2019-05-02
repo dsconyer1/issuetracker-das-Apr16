@@ -14,9 +14,12 @@ import { DeveloperEffects } from './effects/developers.effects';
 import { IssuesRoutingModule } from './issues-routing.module';
 import { IssuesComponent } from './issues.component';
 import { featureName, reducers } from './reducers';
+import { DefectsComponent } from './containers/defects/defects.component';
+import { DefectsEntryComponent } from './containers/defects-entry/defects-entry.component';
+import { DefectsListComponent } from './containers/defects-list/defects-list.component';
 
 @NgModule({
-  declarations: [IssuesComponent, DevlopersComponent, OverviewComponent, DevloperListComponent, DevloperEntryComponent, DevloperListSorterComponent],
+  declarations: [IssuesComponent, DevlopersComponent, OverviewComponent, DevloperListComponent, DevloperEntryComponent, DevloperListSorterComponent, DefectsComponent, DefectsEntryComponent, DefectsListComponent],
   imports: [
     CommonModule,
     IssuesRoutingModule,

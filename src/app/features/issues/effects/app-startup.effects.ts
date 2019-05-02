@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { concatMap, map } from 'rxjs/operators';
 import * as appActions from '../../../actions/app.actions';
+import * as defectActions from '../actions/defect.actions';
 import * as developerActions from '../actions/developer.actions';
 
 
@@ -19,6 +20,7 @@ export class AppStartUpEffects {
     .pipe(
       ofType(appActions.APP_START),
       concatMap(() => [
+        new defectActions.LoadDefects(),
         new developerActions.LoadDevelopers()
       ])
     );

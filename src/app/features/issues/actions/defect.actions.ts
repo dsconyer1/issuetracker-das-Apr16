@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { DeveloperListItem } from '../models';
 import { DefectEntity } from '../reducers/defects.reducer';
 
 export const LOAD_DEFECTS = '[issues] load the defects';
@@ -19,12 +20,15 @@ export const ADDED_DEFECT = '[issues] defect added';
 export class AddedDefect implements Action {
   readonly type = ADDED_DEFECT;
   public payload: DefectEntity;
-  constructor(title: string, dateSubmitted: Date, description: string) {
+  constructor(title: string, dateSubmitted: Date, description: string, status: string, developerId: DeveloperListItem, fixCommit: string) {
     this.payload = {
       id: 'T' + (++currentId),
       title,
       dateSubmitted,
-      description
+      description,
+      status,
+      developerId,
+      fixCommit
     };
    }
 }

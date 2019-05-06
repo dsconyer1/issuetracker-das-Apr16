@@ -7,14 +7,40 @@
   </div>
   <div class="form-group">
     <label for="dateSubmitted">Date Submitted</label>
-    <input class="form-control" formControlName="dateSubmitted" name="dateSubmitted">
+    <div class="input-group">
+      <input class="form-control" placeholder="yyy-mm-dd" formControlName="dateSubmitted"
+              name="dateSubmitted" ngbDatepicker #d="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+      </div>
+    </div>
   </div>
   <div class="form-group">
     <label for="description">Description</label>
     <input class="form-control" formControlName="description">
+  </div>
+  <div class="form-group">
+    <label for="status">Status</label>
+    <select class="form-control" formControlName="status">
+      <option>New</option>
+      <option>In Process</option>
+      <option>Completed</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="developerId">Developer</label>
+    <select class="form-control" formControlName="developerId">
+      <option></option>
+      <option *ngFor='let developer of developers' value='{{developer}}'>{{developer.firstName}} {{developer.lastName}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="fixCommit">Fix Commit</label>
+    <input class="form-control" formControlName="fixCommit">
   </div>
   <input type="submit" value="Add Defect" class="btn btn-primary">
   <div class="alert alert-danger" *ngIf="hasErrors">
     Please fix your errors.
   </div>
 </form>
+

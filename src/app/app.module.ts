@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
@@ -13,7 +14,6 @@ import { IssuesModule } from './features/issues/issues.module';
 import { metaReducers, reducers } from './reducers';
 import { CustomSerializer } from './reducers/custom-router-seralizer';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +21,7 @@ import { CustomSerializer } from './reducers/custom-router-seralizer';
     HomeComponent
   ],
   imports: [
+    NgbModule,
     BrowserModule,
     IssuesModule,
     AppRoutingModule,

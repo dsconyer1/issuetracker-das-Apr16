@@ -1,9 +1,8 @@
 <div class="row" *ngIf="(defectsLoaded$ | async) === true">
   <div class="col">
-    <app-defects-entry></app-defects-entry>
+    <app-defects-entry [developers]="devs$ | async"></app-defects-entry>
   </div>
   <div class="col">
-    <!-- <app-devloper-list-sorter></app-devloper-list-sorter> -->
     <app-defects-list [defects]="defects$ | async"></app-defects-list>
   </div>
 </div>

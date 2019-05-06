@@ -16,4 +16,7 @@ export class DefectsListComponent implements OnInit {
   ngOnInit() {
   }
 
+  throwBack(defect: DefectListItem) {
+
+  }
 }

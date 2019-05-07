@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import * as defectActions from '../actions/defect.actions';
-import { DefectEntity } from '../reducers/defects.reducer';
+import { DefectEntity, DefectUpdateEntity } from '../reducers/defects.reducer';
 
 @Injectable()
 export class DefectEffects {
@@ -19,6 +19,20 @@ export class DefectEffects {
           map(defectFromServer => new defectActions.SuccessfullyAddedADefect(originalAction.payload.id, defectFromServer)),
           catchError(r =>
             of(new defectActions.FailedAddingDefect('Cannot Add That Defect', originalAction.payload ))
+          )
+        )
+      )
+    );
+
+    @Effect() updateDefect$ = this.actions$
+    .pipe(
+      ofType(defectActions.UPDATE_DEFECT),
+      map(a => a as defectActions.UpdateDefect),
+      switchMap(originalAction => this.http.put<DefectUpdateEntity>(this.uri, originalAction.payload)
+        .pipe(
+          map(defectFromServer => new defectActions.SuccessfullyUpdatedDefect(originalAction.payload.id, defectFromServer)),
+          catchError(r =>
+            of(new defectActions.FailedUpdatingDefect('Cannot Update That Defect', originalAction.payload ))
           )
         )
       )

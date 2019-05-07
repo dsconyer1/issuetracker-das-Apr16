@@ -6,6 +6,6 @@ export interface DefectListItem {
   dateSubmitted: Date;
   description: string;
   status: string;
-  developerId: DeveloperListItem;
+  developerId?: DeveloperListItem;
   fixCommit: string;
 }

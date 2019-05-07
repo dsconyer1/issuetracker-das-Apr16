@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { DeveloperListItem } from '../models';
-import { DefectEntity } from '../reducers/defects.reducer';
+import { DefectEntity, DefectUpdateEntity } from '../reducers/defects.reducer';
 
 export const LOAD_DEFECTS = '[issues] load the defects';
 export class LoadDefects implements Action {
@@ -45,10 +45,40 @@ export class FailedAddingDefect implements Action {
   constructor(public errorMessage: string, public defect: DefectEntity) { }
 }
 
+export const UPDATE_DEFECT = '[issues] defect update';
+export class UpdateDefect implements Action {
+  readonly type = UPDATE_DEFECT;
+  public payload: DefectUpdateEntity;
+  constructor(id: string, status: string, developerId: DeveloperListItem, fixCommit: string) {
+    this.payload = {
+      id,
+      changes: {
+        status,
+        developerId,
+        fixCommit
+      }
+    };
+   }
+}
+
+export const UPDATE_DEFECT_SUCCESS = '[issues] update defect successfully';
+export class SuccessfullyUpdatedDefect implements Action {
+  readonly type = UPDATE_DEFECT_SUCCESS;
+  constructor(public oldId: string, public defect: DefectUpdateEntity) { }
+}
+
+export const UPDATE_DEFECT_FAILURE = '[issues] update defect failure';
+export class FailedUpdatingDefect implements Action {
+  readonly type = UPDATE_DEFECT_FAILURE;
+  constructor(public errorMessage: string, public defect: DefectUpdateEntity) { }
+}
 
 export type DefectActions =
     LoadDefects
     | LoadedDefectsSuccessfully
     | AddedDefect
     | SuccessfullyAddedADefect
-    | FailedAddingDefect;
+    | FailedAddingDefect
+    | UpdateDefect
+    | SuccessfullyUpdatedDefect
+    | FailedUpdatingDefect;

@@ -4,11 +4,9 @@
     <h5 class="card-title">{{defect.title}}</h5>
     <h6 class="card-subtitle mb-2 text-muted">{{defect.dateSubmitted}}</h6>
     <p class="card-text">{{defect.description}}</p>
-    <p class="card-text">{{defect.developerId.firstName}}{{defect.developerId.lastName}}</p>
+    <p class="card-text">{{developerDisplay(defect)}}</p>
     <p class="card-text">{{defect.fixCommit}}</p>
-    <a href="#" *ngIf='defect.developerId'
-       class="card-link" (click)="throwBack(defect)">Throw Back</a>
-    <a href="#"
-       class="card-link">Another link</a>
+    <input *ngIf='defect.developerId' type="submit" value="Throw Back" class="btn btn-primary defectButton" (click)="throwBack(defect)">
+    <input *ngIf='defect.developerId' type="submit" value="Make Complete" class="btn btn-primary defectButton" (click)="makeComplete(defect)">
   </div>
 </div>

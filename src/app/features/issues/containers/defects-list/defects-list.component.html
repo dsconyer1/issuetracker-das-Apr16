@@ -7,6 +7,26 @@
     <p class="card-text">{{developerDisplay(defect)}}</p>
     <p class="card-text">{{defect.fixCommit}}</p>
     <input *ngIf='defect.developerId' type="submit" value="Throw Back" class="btn btn-primary defectButton" (click)="throwBack(defect)">
-    <input *ngIf='defect.developerId' type="submit" value="Make Complete" class="btn btn-primary defectButton" (click)="makeComplete(defect)">
+    <input *ngIf='defect.developerId' type="submit" value="Make Complete" class="btn btn-primary defectButton" (click)="open(content, defect)">
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Make Defect Complete</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-group">
+        <label for="fixCommit">Fix Commit</label>
+        <div class="input-group">
+          <input id="fixCommit" #fixCommit class="form-control" placeholder="Enter commit hash used to fix the defect">
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close(fixCommit.value)">Save</button>
+  </div>
+</ng-template>

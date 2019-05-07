@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { UpdateDefect } from '../../actions/defect.actions';
 import { DefectListItem } from '../../models';
@@ -14,7 +15,7 @@ export class DefectsListComponent implements OnInit {
 
   @Input() defects: DefectListItem[];
 
-  constructor(private store: Store<State>) { }
+  constructor(private store: Store<State>, private modalService: NgbModal) { }
 
   ngOnInit() {
   }
@@ -29,6 +30,12 @@ export class DefectsListComponent implements OnInit {
 
   throwBack(defect: DefectListItem) {
     this.store.dispatch(new UpdateDefect(defect.id, defect.status, undefined, defect.fixCommit));
-    }
+  }
+
+  open(content, defect: DefectListItem) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((fixCommit) => {
+      this.store.dispatch(new UpdateDefect(defect.id, 'Complete', defect.developerId, fixCommit));
+    });
+  }
 
 }

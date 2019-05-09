@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AddedDefect } from '../../actions/defect.actions';
 import { DeveloperListItem } from '../../models';
@@ -26,7 +26,7 @@ export class DefectsEntryComponent implements OnInit {
       status: ['', [Validators.required]],
       developerId: [''],
       fixCommit: ['']
-    });
+    }, { validator: this.formValidator } );
   }
 
   onSubmit(focusMe: HTMLInputElement) {
@@ -69,31 +69,53 @@ export class DefectsEntryComponent implements OnInit {
     return this.defectForm.get('fixCommit');
   }
 
-  // showStatus(v) {
-  //   console.log('Value = ', v);
-  // }
+  formValidator: ValidatorFn = (fg: FormGroup) => {
+    const status = fg.get('status').value.toLowerCase();
+    const developerId = fg.get('developerId').value;
+    const fixCommit = fg.get('fixCommit').value;
+
+    const result = {};
+    const devResult = status === 'new' && developerId !== null
+     ? Object.assign(result, {developerError: true})
+     : null;
+
+    const fixCommitResult = status !== 'completed' && fixCommit.length > 0
+    ? Object.assign(result, { fixCommitError: true })
+    : null;
+
+    if (devResult || fixCommitResult) { return result; } else { return null; }
+  }
+
+//  fixCommitValidator: ValidatorFn = (fg: FormGroup) => {
+//     const status = fg.get('status').value.toLowerCase();
+//     const fixCommit = fg.get('fixCommit').value;
+//     return status !== 'completed' && fixCommit !== null
+//      ? { fixCommitError: true }
+//      : null;
+//   }
+
 }
 
-function developerValidator(status: string, developer: string): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } => {
-      if ((status.toLowerCase() === 'new') && (developer.length > 0)) {
-        return {
-          developerError: true
-        };
-      } else {
-        return null;
-      }
-  };
-}
+// function developerValidator(fg: FormGroup): ValidatorFn  {
+//   return (control: AbstractControl): { [key: string]: any } => {
+//       if (fg.) {
+//         return {
+//           developerError: true
+//         };
+//       } else {
+//         return null;
+//       }
+//   };
+// }
 
-function fixCommitValidator(status: string, fixCommit: string): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } => {
-      if ((status.toLowerCase() !== 'completed') && (fixCommit.length > 0)) {
-        return {
-          fixCommitError: true
-        };
-      } else {
-        return null;
-      }
-  };
-}
+// function fixCommitValidator(status: string, fixCommit: string): ValidatorFn {
+//   return (control: AbstractControl): { [key: string]: any } => {
+//       if ((status.toLowerCase() !== 'completed') && (fixCommit.length > 0)) {
+//         return {
+//           fixCommitError: true
+//         };
+//       } else {
+//         return null;
+//       }
+//   };
+// }

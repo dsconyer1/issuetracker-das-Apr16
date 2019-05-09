@@ -44,7 +44,7 @@
         <label for="assignDev">Developer</label>
         <div class="input-group">
           <select id="assignDev" #assignDev class="form-control" placeholder="Select Developer">
-            <option *ngFor="let dev of developers" value={{dev.id}}>{{developerDisplay(dev)}}</option>
+            <option *ngFor="let dev of developers" value={{dev.id}}>{{developerDisplay(dev.id)}}</option>
           </select>
         </div>
       </div>

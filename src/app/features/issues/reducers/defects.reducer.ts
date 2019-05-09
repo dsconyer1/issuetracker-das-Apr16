@@ -1,6 +1,5 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import * as actions from '../actions/defect.actions';
-import { DeveloperListItem } from '../models';
 
 export interface DefectEntity {
   id: string;
@@ -8,7 +7,7 @@ export interface DefectEntity {
   dateSubmitted: Date;
   description: string;
   status: string;
-  developerId: DeveloperListItem;
+  developerId: string;
   fixCommit: string;
 }
 export interface DefectUpdateEntity {

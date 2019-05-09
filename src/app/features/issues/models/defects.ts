@@ -1,4 +1,3 @@
-import { DeveloperListItem } from './developers';
 
 export interface DefectListItem {
   id: string;
@@ -6,6 +5,6 @@ export interface DefectListItem {
   dateSubmitted: Date;
   description: string;
   status: string;
-  developerId?: DeveloperListItem;
+  developerId?: string;
   fixCommit: string;
 }

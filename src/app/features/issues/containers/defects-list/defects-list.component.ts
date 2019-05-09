@@ -21,7 +21,8 @@ export class DefectsListComponent implements OnInit {
   ngOnInit() {
   }
 
-  developerDisplay(dev: DeveloperListItem) {
+  developerDisplay(devId: string) {
+    const dev = this.developers.find(aDev => aDev.id === devId);
     let result = '';
     if (dev) {
       result = dev.firstName + ' ' + dev.lastName;
@@ -53,8 +54,8 @@ export class DefectsListComponent implements OnInit {
 
   openAssignDev(content, defect: DefectListItem) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((devId) => {
-      const newDev = this.developers.find(aDev => aDev.id === devId);
-      this.store.dispatch(new UpdateDefect(defect.id, 'In Process', newDev, defect.fixCommit));
+      // const newDev = this.developers.find(aDev => aDev.id === devId);
+      this.store.dispatch(new UpdateDefect(defect.id, 'In Process', devId, defect.fixCommit));
     });
   }
 

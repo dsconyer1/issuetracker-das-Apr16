@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AddedDefect } from '../../actions/defect.actions';
 import { DeveloperListItem } from '../../models';
@@ -38,6 +38,9 @@ export class DefectsEntryComponent implements OnInit {
       focusMe.focus();
       this.hasErrors = false;
     } else {
+      console.log('Form is valid = ', this.defectForm.valid);
+      console.log('Errors');
+      console.log(this.defectForm.errors);
       this.hasErrors = true;
     }
   }
@@ -66,4 +69,31 @@ export class DefectsEntryComponent implements OnInit {
     return this.defectForm.get('fixCommit');
   }
 
+  // showStatus(v) {
+  //   console.log('Value = ', v);
+  // }
+}
+
+function developerValidator(status: string, developer: string): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } => {
+      if ((status.toLowerCase() === 'new') && (developer.length > 0)) {
+        return {
+          developerError: true
+        };
+      } else {
+        return null;
+      }
+  };
+}
+
+function fixCommitValidator(status: string, fixCommit: string): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } => {
+      if ((status.toLowerCase() !== 'completed') && (fixCommit.length > 0)) {
+        return {
+          fixCommitError: true
+        };
+      } else {
+        return null;
+      }
+  };
 }

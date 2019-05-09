@@ -63,3 +63,12 @@ export const selectDeveloperListItems = createSelector(
     })];
   }
 );
+
+export const selectUnassignedDefectListItems = createSelector(selectDefectListItems,
+  defects => defects.filter((defect: DefectListItem) => defect.status.toLowerCase() === 'new'));
+
+export const selectAssignedDefectListItems = createSelector(selectDefectListItems,
+  defects => defects.filter((defect: DefectListItem) => defect.status.toLowerCase() === 'in process'));
+
+export const selectCompletedDefectListItems = createSelector(selectDefectListItems,
+  defects => defects.filter((defect: DefectListItem) => defect.status.toLowerCase() === 'completed'));

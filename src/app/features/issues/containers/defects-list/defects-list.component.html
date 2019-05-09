@@ -4,14 +4,15 @@
     <h5 class="card-title">{{defect.title}}</h5>
     <h6 class="card-subtitle mb-2 text-muted">{{defect.dateSubmitted}}</h6>
     <p class="card-text">{{defect.description}}</p>
-    <p class="card-text">{{developerDisplay(defect)}}</p>
+    <p class="card-text">{{developerDisplay(defect.developerId)}}</p>
     <p class="card-text">{{defect.fixCommit}}</p>
-    <input *ngIf='defect.developerId' type="submit" value="Throw Back" class="btn btn-primary defectButton" (click)="throwBack(defect)">
-    <input *ngIf='defect.developerId' type="submit" value="Make Complete" class="btn btn-primary defectButton" (click)="open(content, defect)">
+    <input *ngIf='showAssignDev(defect)' type="submit" value="Assign Developer" class="btn btn-primary defectButton" (click)="openAssignDev(assignDevModal, defect)">
+    <input *ngIf='showThrowBack(defect)' type="submit" value="Throw Back" class="btn btn-primary defectButton" (click)="throwBack(defect)">
+    <input *ngIf='showMakeComplete(defect)' type="submit" value="Make Complete" class="btn btn-primary defectButton" (click)="openMakeComplete(makeCompleteModal, defect)">
   </div>
 </div>
 
-<ng-template #content let-modal>
+<ng-template #makeCompleteModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Make Defect Complete</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -28,5 +29,27 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="modal.close(fixCommit.value)">Save</button>
+  </div>
+</ng-template>
+
+<ng-template #assignDevModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Assign Developer</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-group">
+        <label for="assignDev">Developer</label>
+        <div class="input-group">
+          <select id="assignDev" #assignDev class="form-control" placeholder="Select Developer">
+            <option *ngFor="let dev of developers" value={{dev.id}}>{{developerDisplay(dev)}}</option>
+          </select>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close(assignDev.value)">Save</button>
   </div>
 </ng-template>

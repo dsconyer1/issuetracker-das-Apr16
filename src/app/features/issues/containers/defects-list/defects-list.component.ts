@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { UpdateDefect } from '../../actions/defect.actions';
-import { DefectListItem } from '../../models';
+import { DefectListItem, DeveloperListItem } from '../../models';
 import { State } from '../../reducers/defects.reducer';
 
 @Component({
@@ -14,27 +14,53 @@ import { State } from '../../reducers/defects.reducer';
 export class DefectsListComponent implements OnInit {
 
   @Input() defects: DefectListItem[];
+  @Input() developers: DeveloperListItem[];
 
   constructor(private store: Store<State>, private modalService: NgbModal) { }
 
   ngOnInit() {
   }
 
-  developerDisplay(defect: DefectListItem) {
+  developerDisplay(dev: DeveloperListItem) {
     let result = '';
-    if (defect.developerId) {
-      result = defect.developerId.firstName + ' ' + defect.developerId.lastName;
+    if (dev) {
+      result = dev.firstName + ' ' + dev.lastName;
     }
     return result;
   }
 
-  throwBack(defect: DefectListItem) {
-    this.store.dispatch(new UpdateDefect(defect.id, defect.status, undefined, defect.fixCommit));
+  showAssignDev(defect: DefectListItem) {
+    if (defect.developerId) {
+      return false;
+    } else { return true; }
   }
 
-  open(content, defect: DefectListItem) {
+  showThrowBack(defect: DefectListItem) {
+    if (defect.developerId && defect.status.toLowerCase() === 'in process') {
+      return true;
+    } else { return false; }
+  }
+
+  showMakeComplete(defect: DefectListItem) {
+    if (defect.developerId && defect.status.toLowerCase() !== 'completed') {
+      return true;
+    } else { return false; }
+  }
+
+  throwBack(defect: DefectListItem) {
+    this.store.dispatch(new UpdateDefect(defect.id, 'New', undefined, defect.fixCommit));
+  }
+
+  openAssignDev(content, defect: DefectListItem) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((devId) => {
+      const newDev = this.developers.find(aDev => aDev.id === devId);
+      this.store.dispatch(new UpdateDefect(defect.id, 'In Process', newDev, defect.fixCommit));
+    });
+  }
+
+  openMakeComplete(content, defect: DefectListItem) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((fixCommit) => {
-      this.store.dispatch(new UpdateDefect(defect.id, 'Complete', defect.developerId, fixCommit));
+      this.store.dispatch(new UpdateDefect(defect.id, 'Completed', defect.developerId, fixCommit));
     });
   }
 

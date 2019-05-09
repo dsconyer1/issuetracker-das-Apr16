@@ -4,6 +4,14 @@
     <input class="form-control"
            #focusme
            formControlName="title" name="title">
+    <div class="alert alert-danger"
+           *ngIf="(title.dirty || title.touched) && title.errors">
+         {{ title.errors | json }}
+    </div>
+    <div class="alert alert-danger"
+           *ngIf="title.errors">
+         {{ title.errors | json }}
+    </div>
   </div>
   <div class="form-group">
     <label for="dateSubmitted">Date Submitted</label>
@@ -14,18 +22,32 @@
         <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
       </div>
     </div>
+    <div class="alert alert-danger"
+           *ngIf="(dateSubmitted.dirty || dateSubmitted.touched) && dateSubmitted.errors">
+         {{ dateSubmitted.errors | json }}
+    </div>
   </div>
   <div class="form-group">
     <label for="description">Description</label>
     <input class="form-control" formControlName="description">
+    <div class="alert alert-danger"
+           *ngIf="(description.dirty || description.touched) && description.errors">
+         {{ description.errors | json }}
+    </div>
   </div>
   <div class="form-group">
     <label for="status">Status</label>
-    <select class="form-control" formControlName="status">
-      <option>New</option>
+    <select class="form-control" formControlName="status" id='status'>
+      <option [defaultSelected]='true'>New</option>
       <option>In Process</option>
       <option>Completed</option>
     </select>
+    <div class="alert alert-danger"
+        *ngIf="(status.dirty || status.touched) && status.errors">
+      {{ status.errors | json }}
+      <div *ngIf="status.errors['developerError']">You cannot have a developer with a new status.</div>
+      <div *ngIf="status.errors['fixCommitError']">You cannot have a fixCommit enry without a completed status.</div>
+      </div>
   </div>
   <div class="form-group">
     <label for="developerId">Developer</label>
